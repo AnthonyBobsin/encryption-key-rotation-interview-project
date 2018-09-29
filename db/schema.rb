@@ -11,23 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718202445) do
+ActiveRecord::Schema.define(version: 20180929170240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "data_encrypting_keys", force: :cascade do |t|
-    t.string   "encrypted_key"
-    t.boolean  "primary"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "encrypted_key",                 null: false
+    t.boolean  "primary",       default: false, null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "encrypted_strings", force: :cascade do |t|
-    t.string   "encrypted_value"
-    t.string   "encrypted_value_iv"
-    t.string   "encrypted_value_salt"
-    t.integer  "data_encrypting_key_id"
+    t.string   "encrypted_value",        null: false
+    t.string   "encrypted_value_iv",     null: false
+    t.string   "encrypted_value_salt",   null: false
+    t.integer  "data_encrypting_key_id", null: false
     t.string   "token",                  null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
