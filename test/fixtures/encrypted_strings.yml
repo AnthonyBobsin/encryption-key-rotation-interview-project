@@ -1,15 +1,20 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+<%= one = EncryptedString.new(value: "MyString", data_encrypting_key_id: 1) %>
+
+
 one:
-  encrypted_value: MyString
-  encrypted_value_iv: MyString
-  encrypted_value_salt: MyString
-  data_encrypting_key: primary
-  token: MyString
+  encrypted_value: "<%= one.encrypted_value %>"
+  encrypted_value_iv: "<%= one.encrypted_value_iv %>"
+  encrypted_value_salt: "<%= one.encrypted_value_salt %>"
+  data_encrypting_key_id: 1
+  token: MyTokenOne
+
+<%= two = EncryptedString.new(value: "MyString", data_encrypting_key_id: 2) %>
 
 two:
-  encrypted_value: MyString
-  encrypted_value_iv: MyString
-  encrypted_value_salt: MyString
-  data_encrypting_key: secondary
-  token: MyString
+  encrypted_value: "<%= two.encrypted_value %>"
+  encrypted_value_iv: "<%= two.encrypted_value_iv %>"
+  encrypted_value_salt: "<%= two.encrypted_value_salt %>"
+  data_encrypting_key_id: 2
+  token: MyTokenTwo

@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 primary:
+  id: 1
   encrypted_key: This is a key that is 256 bits!!
   primary: true
 
 secondary:
+  id: 2
   encrypted_key: THIS IS A KEY THAT IS 256 BITS!!
   primary: false
