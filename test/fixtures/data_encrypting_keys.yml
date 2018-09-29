@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  encrypted_key: MyString
-  primary: false
+primary:
+  encrypted_key: This is a key that is 256 bits!!
+  primary: true
 
-two:
-  encrypted_key: MyString
+secondary:
+  encrypted_key: THIS IS A KEY THAT IS 256 BITS!!
   primary: false
