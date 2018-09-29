@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EncryptingKeyRotationServiceTest < ActionController::TestCase
+class EncryptingKeyRotationServiceTest < ActiveSupport::TestCase
   test ".rotate_all" do
     sample_string = EncryptedString.first
     old_value = sample_string.value
