@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   resources :encrypted_strings, param: :token
+
+  scope :data_encrypting_keys do
+    post :rotate, controller: :data_encrypting_keys
+    get 'rotate/status', controller: :data_encrypting_keys, action: :rotate_status
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
