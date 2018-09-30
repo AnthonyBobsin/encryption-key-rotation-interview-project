@@ -2,7 +2,6 @@ class EncryptedString < ActiveRecord::Base
   belongs_to :data_encrypting_key
 
   attr_encrypted :value,
-                 mode: :per_attribute_iv_and_salt,
                  key: :encryption_encrypted_key
 
   validates :token, presence: true, uniqueness: true
