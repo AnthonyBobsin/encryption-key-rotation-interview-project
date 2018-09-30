@@ -4,7 +4,7 @@ class DataEncryptingKeysController < ApplicationController
   before_action :set_worker_status
 
   def rotate
-    if @worker_status.status == WAITING
+    if @worker_status.status == STATUS::WAITING
       render json: EncryptingKeyRotationWorker.perform_async
     else
       render json: { message: Errors::ROTATION_WORKER_BUSY },

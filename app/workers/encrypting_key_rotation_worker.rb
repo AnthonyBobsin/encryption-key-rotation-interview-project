@@ -2,23 +2,16 @@ class EncryptingKeyRotationWorker
   include Sidekiq::Worker
 
   def perform
-    if worker_status.lock_available?
+    unless worker_status.lock_available?
       logger.warn Errors::IN_PROGRESS_ERROR
       return [false, Errors::IN_PROGRESS_ERROR]
     end
 
     worker_status.lock!
+    result = EncryptingKeyRotationService.rotate_all
+    worker_status.unlock!
 
-    begin
-      [true, EncryptingKeyRotationService.rotate_all]
-    rescue => e
-      logger.error Errors::UNKNOWN_ERROR
-      logger.error e.message
-
-      [false, e.message]
-    ensure
-      worker_status.unlock!
-    end
+    [true, result]
   end
 
   private

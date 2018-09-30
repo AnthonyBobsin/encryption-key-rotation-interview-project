@@ -7,6 +7,7 @@ class SidekiqWorkerStatusService
     RUNNING = 'RUNNING'.freeze
   end
   QUEUE = 'queue'
+  DEFAULT_WORKER_RUNNING_TIME = 60 # seconds
 
   def initialize(worker_klass)
     @worker_klass = worker_klass
@@ -14,22 +15,22 @@ class SidekiqWorkerStatusService
 
   def status
     if lock_available?
-      queued_params? ? QUEUED : WAITING
+      queued_params? ? Status::QUEUED : Status::WAITING
     else
-      RUNNING
+      Status::RUNNING
     end
   end
 
   def queued_params?
-    Sidekiq::Queue.new(@worker_klass.sidekiq_options[QUEUE]).size > 0
+    @worker_klass.jobs.size > 0
   end
 
   def lock_available?
-    !!redis.get(lock_key_for_worker)
+    !(!!redis.get(lock_key_for_worker))
   end
 
   def lock!
-    redis.set(lock_key_for_worker, true)
+    redis.set(lock_key_for_worker, true, ex: DEFAULT_WORKER_RUNNING_TIME)
   end
 
   def unlock!
