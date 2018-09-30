@@ -9,8 +9,9 @@ class SidekiqWorkerStatusService
   QUEUE = 'queue'
   DEFAULT_WORKER_RUNNING_TIME = 60 # seconds
 
-  def initialize(worker_klass)
+  def initialize(worker_klass, redis_client: Redis.current)
     @worker_klass = worker_klass
+    @redis_client = redis_client
   end
 
   def status
@@ -26,7 +27,7 @@ class SidekiqWorkerStatusService
   end
 
   def lock_available?
-    !(!!redis.get(lock_key_for_worker))
+    !redis.get(lock_key_for_worker)
   end
 
   def lock!
@@ -44,6 +45,6 @@ class SidekiqWorkerStatusService
   end
 
   def redis
-    @redis ||= Redis.current
+    @redis_client
   end
 end
