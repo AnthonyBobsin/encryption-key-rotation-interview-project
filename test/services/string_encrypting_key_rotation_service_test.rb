@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class EncryptingKeyRotationServiceTest < ActiveSupport::TestCase
+class StringEncryptingKeyRotationServiceTest < ActiveSupport::TestCase
   setup do
-    @subject = EncryptingKeyRotationService.new
+    @subject = StringEncryptingKeyRotationService.new
   end
 
   test ".rotate_all" do

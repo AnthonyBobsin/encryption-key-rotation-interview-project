@@ -6,6 +6,10 @@ class EncryptingKeyRotationService
     end
   end
 
+  # NOTE: This implementation aborts and reverts transaction
+  #       once an encrypted object fails update. Depending
+  #       on requirements of failures, we can modify this to
+  #       continue and rotate the rest of the objects.
   def rotate_all
     # wrap in transaction to ensure our encrypted data integrity
     ActiveRecord::Base.transaction do
@@ -15,7 +19,7 @@ class EncryptingKeyRotationService
       old_keys.each do |old_key|
         # fetch encrypted strings in batches
         # start from 0 each time because we're emptying this dataset
-        encrypted_strings_for_key(old_key).find_in_batches(start: 0) do |batch|
+        encrypted_objects_for_key(old_key).find_in_batches(start: 0) do |batch|
           # rotate each encrypted object with new key
           batch.each { |encrypted| rotate(encrypted, new_key) }
         end
@@ -28,17 +32,12 @@ class EncryptingKeyRotationService
   end
 
   def rotate(encrypted, new_key = DataEncryptingKey.generate!)
-    value = encrypted.value
-
-    encrypted.data_encrypting_key = new_key
-    encrypted.value = value
-
-    encrypted.save! ? encrypted : (raise StandardError, encrypted.errors)
+    raise NotImplementedError, "Implement this in a child class!"
   end
 
-  private
+  protected
 
-  def encrypted_strings_for_key(key)
-    EncryptedString.where(data_encrypting_key_id: key.id)
+  def encrypted_objects_for_key(key)
+    raise NotImplementedError, "Implement this in a child class!"
   end
 end

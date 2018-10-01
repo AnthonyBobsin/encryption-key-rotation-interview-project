@@ -2,7 +2,7 @@ class EncryptingKeyRotationWorker
   include Sidekiq::Worker
 
   def initialize(
-      rotation_service: EncryptingKeyRotationService,
+      rotation_service: StringEncryptingKeyRotationService,
       status_service: SidekiqWorkerStatusService.new(self.class))
     @rotation_service = rotation_service
     @status_service = status_service
